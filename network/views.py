@@ -1,14 +1,24 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-
-from .models import User
-
+from django.contrib.auth.decorators import login_required
+from .models import *
+from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all().order_by('-created_at')
+    paginator = Paginator(posts, 10)
+    # page number
+    page_number = request.GET.get('page')
+    post_on_page = paginator.get_page(page_number)
+    context = {
+        'posts': posts,
+        'post_on_page': post_on_page
+    }
+    return render(request, "network/index.html", context)
 
 
 def login_view(request):
@@ -61,3 +71,41 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+# post
+@csrf_exempt  # Asegúrate de usar csrf_exempt para permitir solicitudes POST sin CSRF
+@login_required
+def post(request):
+    if request.method == "POST":
+        user = request.user
+        content = request.POST["content"]
+        post = Post(user=user, content=content)
+        post.save()
+        # get all data of new comment
+        data = {
+            "id": post.id,
+            "content": post.content,
+            "user": post.user.username,
+            "created_at": post.created_at
+        }
+        return JsonResponse({'success': True, 'content': data})
+    else:
+        return render(request, "network/index.html")
+
+
+# profile
+@login_required
+def profile(request, user_id):
+    user = User.objects.get(id=user_id)
+    posts = Post.objects.filter(user=user).order_by('-created_at')
+    paginator = Paginator(posts, 10)
+    # page number
+    page_number = request.GET.get('page')
+    post_on_page = paginator.get_page(page_number)
+    context = {
+        'user': user,
+        'posts': posts,
+        'post_on_page': post_on_page
+    }
+    return render(request, "network/profile.html", context)
