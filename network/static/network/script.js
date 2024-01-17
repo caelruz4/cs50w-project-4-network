@@ -1,31 +1,54 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const createPostForm = document.getElementById("create-post-form");
+document.addEventListener('DOMContentLoaded', function () {
+  var editButtons = document.querySelectorAll('.edit-button');
 
-  createPostForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const content = document.getElementById("content").value;
-    
-    fetch("{% url 'post' %}", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "X-CSRFToken": "{{ csrf_token }}"
-      },
-      body: `content=${encodeURIComponent(content)}`
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          const p = document.createElement("p");
-          p.textContent = data.content;
-          const div = document.getElementById("all-posts");
-          // Insertar antes del último.
-          div.insertBefore(p, div.firstChild);
-          document.getElementById("content").value = "";
-        } else {
-          console.error("Error al procesar la solicitud");
-        }
-      })
-      .catch(error => console.error("Error en la solicitud AJAX:", error));
+  editButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+          var postId = button.getAttribute('data-post-id');
+          var postContent = button.closest('article').querySelector('.contenido-post');
+          // token
+          var csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+          Swal.fire({
+              title: "Edit Post",
+              input: "textarea",
+              inputValue: postContent.textContent.trim(),
+              inputAttributes: {
+                  autocapitalize: "off"
+              },
+              showCancelButton: true,
+              confirmButtonText: "Save",
+              showLoaderOnConfirm: true,
+              preConfirm: async (newContent) => {
+                  try {
+                      const response = await fetch(`/edit/${postId}`, {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/x-www-form-urlencoded',
+                              'X-CSRFToken': csrf_token,
+                          },
+                          body: `new_content=${encodeURIComponent(newContent)}`,
+                      });
+
+                      if (response.ok) {
+                          return { status: 'success', newContent };
+                      } else {
+                          throw new Error('Failed to edit post');
+                      }
+                  } catch (error) {
+                      Swal.showValidationMessage(`Request failed: ${error}`);
+                  }
+              },
+              allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+              if (result.isConfirmed && result.value.status === 'success') {
+                  // Actualizar el contenido del post en el DOM
+                  postContent.textContent = result.value.newContent;
+
+                  Swal.fire({
+                      title: 'Post edited successfully!',
+                      icon: 'success'
+                  });
+              }
+          });
+      });
   });
 });

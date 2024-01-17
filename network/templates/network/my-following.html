@@ -1,0 +1,248 @@
+{% extends "network/layout.html" %}
+{% block title %}
+Following
+{% endblock %}
+{% block body %}
+<section>
+
+    <div class="mb-6">
+        {% if my_following %}
+        <h2 class="text-4xl font-bold dark:text-white">Following
+        </h1>
+        {% else %}
+        <h2 class="text-4xl font-bold dark:text-white">All posts
+
+        {% endif %}
+            {% if not user.is_authenticated %}
+
+            <span id="badge-dismiss-green"
+                class="inline-flex justify-center items-center px-2 py-1 me-2 text-sm font-medium text-green-800 bg-green-100 rounded dark:bg-green-900 dark:text-green-300">
+                Please <a class="px-1 font-bold" href="{% url 'login' %}"> log in</a> to post.
+
+                <button type="button"
+                    class="inline-flex items-center p-1 ms-2 text-sm text-green-400 bg-transparent rounded-sm hover:bg-green-200 hover:text-green-900 dark:hover:bg-green-800 dark:hover:text-green-300"
+                    data-dismiss-target="#badge-dismiss-green" aria-label="Remove">
+                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Remove badge</span>
+                </button>
+            </span>
+            {% endif %}
+        </h2>
+    </div>
+
+    {% if following %}
+    <div id="all-postwes my-4">
+        <section class="bg-white antialiased">
+            <div class="mx-auto px-4" id="all-posts">
+                {% for post in post_on_page %}
+                <article
+                    class="p-6 mb-3 text-base bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                    <footer class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <p
+                                class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                                <img class="mr-2 w-6 h-6 rounded-full"
+                                    src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                                    alt="Bonnie Green">
+                                <!-- link to that user profile -->
+                                <a href="{% url 'profile' post.user.id %}">{{ post.user.username }}</a>
+                            </p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-03-12"
+                                    title="March 12th, 2022">
+                                    <!-- created at -->
+                                    {{ post.created_at }}
+                                </time></p>
+                        </div>
+                        <button id="dropdownComment3Button" data-dropdown-toggle="dropdownComment3"
+                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                            type="button">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 16 3">
+                                <path
+                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                            </svg>
+                            <span class="sr-only">Comment settings</span>
+                        </button>
+                        <!-- Dropdown menu -->
+                        <div id="dropdownComment3"
+                            class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                aria-labelledby="dropdownMenuIconHorizontalButton">
+                                <li>
+                                    <a href="#"
+                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </footer>
+                    <p class="text-gray-500 dark:text-gray-400">
+                        {{ post.content }}
+                    </p>
+                    <div class="flex items-center mt-4 space-x-4">
+                        <button type="button"
+                            class="flex items-center text-sm text-gray-500 dark:text-gray-400 font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-4 h-4 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                            </svg>
+                            Like
+                        </button>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+    {% else %}
+    <section class="bg-white dark:bg-gray-900">
+        <div class="py-6 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center">
+                <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">Oops!</h1>
+                <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+                    No posts yet
+                </p>
+                <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
+                   There are no posts to be found.
+                </p>
+                <a href="#" class="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4">Back to Homepage</a>
+            </div>   
+        </div>
+    </section>
+    {% endif %}
+    <!-- pagination -->
+    <div class="mt-10 pt-4 mb-6 flex justify-center items-center">
+        <div class="flex">
+            {% if post_on_page.has_previous %}
+            <a href="?page={{ post_on_page.previous_page_number }}"
+                class="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 5H1m0 0 4 4M1 5l4-4" />
+                </svg>
+                Previous
+            </a>
+            {% endif %}
+            {% if post_on_page.has_next %}
+
+            <a href="?page={{ post_on_page.next_page_number }}"
+                class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Next
+                <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 5h12m0 0L9 1m4 4L9 9" />
+                </svg>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const createPostForm = document.getElementById("create-post-form");
+
+        createPostForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Obtén el contenido del textarea
+            const content = document.getElementById("content").value;
+
+            // Realiza una solicitud AJAX
+            fetch("{% url 'post' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: `content=${encodeURIComponent(content)}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // create article
+                        const p = document.createElement("article");
+                        p.classList.add("p-6", "mb-3", "text-base", "bg-white", "border", "border-gray-200", "dark:border-gray-700", "dark:bg-gray-900");
+                        const formattedDate = new Date(data.content.created_at).toLocaleString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: true
+                        });
+
+                        p.innerHTML = `
+                        <footer class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                                <img class="mr-2 w-6 h-6 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie Green">
+                                ${data.content.user}
+                            </p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-03-12" title="March 12th, 2022">
+                                ${formattedDate}
+                                </time></p>
+                        </div>
+                        <button id="dropdownComment3Button" data-dropdown-toggle="dropdownComment3" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                            </svg>
+                            <span class="sr-only">Comment settings</span>
+                        </button>
+                        <!-- Dropdown menu -->
+                        <div id="dropdownComment3" class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+                                <li>
+                                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </footer>
+                    <p class="text-gray-500 dark:text-gray-400">
+                        ${data.content.content}
+                    </p>
+                    <div class="flex items-center mt-4 space-x-4">
+                        <button type="button" class="flex items-center text-sm text-gray-500 dark:text-gray-400 font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                              </svg>
+                            Like  
+                        </button>
+                    </div>
+                        `;
+                        const div = document.getElementById("all-posts");
+                        // add class to div
+                        // Insertar antes del último.
+                        div.insertBefore(p, div.firstChild);
+                        document.getElementById("content").value = "";
+                    }
+                    else {
+                        console.error("Error al procesar la solicitud");
+                    }
+                })
+                .catch(error => console.error("Error en la solicitud AJAX:", error));
+        });
+    });
+</script>
+{% endblock %}
