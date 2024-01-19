@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +7,8 @@
     <title>{% block title %}Social Network{% endblock %}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+    <script src="{% static 'network/likes.js' %}"></script>
+
 </head>
 
 <body>
@@ -63,7 +65,7 @@
                             <ul class="py-1" role="none">
                                 <li>
                                     <a href="
-                                        {% url 'profile' user.id %}"
+                                        #"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                         role="menuitem">Profile</a>
                                 </li>
@@ -119,7 +121,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'profile' user.id %}"
+                    <a href="#"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -159,6 +161,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     <!-- load network script -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <script src="{% static 'network/script.js' %}"></script>
     <script src="{% static 'network/likes.js' %}"></script>
 

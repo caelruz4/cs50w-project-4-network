@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -12,16 +12,11 @@ from django.contrib import messages
 from django.db.models import Count
 
 def index(request):
-    posts = Post.objects.annotate(num_likes=Count('like')).order_by('-created_at')
+    # get every post 
+    posts = Post.objects.all()
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     post_on_page = paginator.get_page(page_number)
-
-    liked_posts = Like.objects.filter(user=request.user, post__in=post_on_page).values_list('post', flat=True)
-    liked_posts = Post.objects.filter(id__in=liked_posts)
-
-    for post in post_on_page:
-        post.is_liked = post in liked_posts
 
     context = {
         'posts': posts,
@@ -166,19 +161,17 @@ def edit(request, post_id):
             return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error', 'message': 'Invalid Request'})
 
+# like
 def toggle_like(request, post_id):
-    if request.method == 'POST':
-        post = Post.objects.get(id=post_id)
-        user = request.user
-        if Like.objects.filter(post=post, user=user).exists():
-            Like.objects.filter(post=post, user=user).delete()
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=post_id)
+        if post.likes.filter(id=request.user.id):
+            post.likes.remove(request.user)
             liked = False
         else:
-            Like.objects.create(post=post, user=user)
+            post.likes.add(request.user)
             liked = True
-
-        total_likes = Like.objects.filter(post=post).count()
-
-        return JsonResponse({'liked': liked, 'total_likes': total_likes})
+            
+        return HttpResponseRedirect(reverse("index"))
     else:
-        return JsonResponse({'error': 'Invalid request method'})
+        return JsonResponse({'error': 'User not authenticated'})

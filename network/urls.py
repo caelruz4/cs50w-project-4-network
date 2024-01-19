@@ -15,5 +15,4 @@ urlpatterns = [
     path("my-following", views.my_following, name="my-following"),
     path("edit/<int:post_id>", views.edit, name="edit"),
     path('toggle_like/<int:post_id>/', views.toggle_like, name='toggle_like'),
-
     ]

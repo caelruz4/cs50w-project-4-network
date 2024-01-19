@@ -1,4 +1,3 @@
-
-.liked-icon {
-    fill:#be185d; 
+.like-button a.clicked {
+    color: red; /* Cambia el color al que prefieras */
 }
