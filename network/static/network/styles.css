@@ -1,3 +1,37 @@
-.like-button a.clicked {
-    color: red; /* Cambia el color al que prefieras */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #ebebeb;
+}
+.usernames {
+    text-transform: capitalize;
+}
+.post-button:hover {
+    transition: 0.3s;
+    background-color: #D3D04F;
+    color: #09090b;
+    svg {
+        fill: #09090b;
+    }
+}
+.text-4xl {
+    font-weight: 700;
+}
+.liked {
+    fill: #db2777;
+    stroke: #db2777;
+}
+.register-button:hover {
+    background-color: #bfdbfe;
+    transition: 0.3s;
+    color: #09090b;
+
+}
+
+.register-button {
+    background-color:#09090b;
+}
+.black-bg {
+    background-color: #09090b;
 }

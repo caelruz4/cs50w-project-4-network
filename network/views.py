@@ -7,10 +7,9 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
-# import messages
 from django.contrib import messages
 from django.db.models import Count
-
+import random 
 def index(request):
     # get every post 
     posts = Post.objects.all()
@@ -53,10 +52,12 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
-
-        # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+
+        # Ensure password matches confirmation
         if password != confirmation:
             return render(request, "network/register.html", {
                 "message": "Passwords must match."
@@ -64,16 +65,25 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            avatar =  create_avatar(first_name, last_name)
+            user = User.objects.create_user(username, email, password, first_name=first_name, last_name=last_name, image_url=avatar)
             user.save()
+
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
             })
+
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+# create avatar function
+def create_avatar(name, lastname):
+    bgColors = ["c4b5fd", "fca5a5", "f9a8d4", "fde68a", "92C7CF"]
+    fontColors= ["5b21b6", "dc2626", "db2777", "d97706", "075985"]
+    index = random.randint(0, len(bgColors) - 1)
+    return f'https://ui-avatars.com/api/?name={name}+{lastname}&rounded=true&size=128&background={bgColors[index]}&color={fontColors[index]}&bold=true'
 
 
 # post
@@ -104,7 +114,7 @@ def profile(request, user_id):
     is_following = user.followers.filter(follower=request.user).exists()
 
     context = {
-        'user': user,
+        'user_profile': user,
         'posts': posts,
         'post_on_page': post_on_page,
         'current_user': is_current_user,
@@ -118,13 +128,13 @@ def profile(request, user_id):
 def follow(request, user_id):
     # if request post
     if request.method == 'POST':
-        user = User.objects.get(id=user_id)
-        if request.user != user:
-            if user.followers.filter(follower=request.user).exists():
+        user_profile = User.objects.get(id=user_id)
+        if request.user != user_profile:
+            if user_profile.followers.filter(follower=request.user).exists():
                 # change to active
-                user.followers.filter(follower=request.user).delete()
+                user_profile.followers.filter(follower=request.user).delete()
             else:
-                user.followers.create(follower=request.user)
+                user_profile.followers.create(follower=request.user)
 
         return HttpResponseRedirect(reverse("profile", args=[user_id]))
     else:
@@ -163,15 +173,18 @@ def edit(request, post_id):
 
 # like
 def toggle_like(request, post_id):
-    if request.user.is_authenticated:
-        post = get_object_or_404(Post, id=post_id)
-        if post.likes.filter(id=request.user.id):
-            post.likes.remove(request.user)
-            liked = False
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            post = get_object_or_404(Post, id=post_id)
+            if post.likes.filter(id=request.user.id):
+                post.likes.remove(request.user)
+                liked = False
+            else:
+                post.likes.add(request.user)
+                liked = True
+
+            return JsonResponse({'liked': liked, 'likes_count': post.likes_count(), 'post_id': post_id })
         else:
-            post.likes.add(request.user)
-            liked = True
-            
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return JsonResponse({'error': 'User not authenticated'})
+            return redirect('login')
+        
+    return JsonResponse({'error': 'Invalid request or user not authenticated'})

@@ -3,6 +3,8 @@ from django.db import models
 
 
 class User(AbstractUser):
+    image_url = models.URLField(blank=True)
+    bio = models.TextField(max_length=100, blank=True)
     pass
 
 class Post(models.Model):

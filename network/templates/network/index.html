@@ -38,13 +38,14 @@
                     <label for="content" class="sr-only">Your content</label>
                     <textarea id="content" rows="4" name="content"
                         class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-                        placeholder="What´s on your mind?..." required></textarea>
+                        placeholder="What's happening?" required></textarea>
                 </div>
                 <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
-                    <button type="submit"
-                        class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                        Post content
-                    </button>
+                    <button type="submit" class="text-white bg-gray-900 post-button focus:ring-4 focus:outline-none focus:ring-[#050708]/50 font-semibold rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 me-2 mb-2">
+                        <!-- <svg class="w-5 h-5 me-2 -ms-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="apple" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg> -->
+                        <svg class="w-5 h-4 me-2 -ms-1" aria-hidden="true" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 32c0 113.6-84.6 207.5-194.2 222c-7.1-53.4-30.6-101.6-65.3-139.3C290.8 46.3 364 0 448 0h32c17.7 0 32 14.3 32 32zM0 96C0 78.3 14.3 64 32 64H64c123.7 0 224 100.3 224 224v32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320C100.3 320 0 219.7 0 96z"/></svg>
+                        Post
+                        </button>
                     <div class="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
                         <button type="button"
                             class="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
@@ -87,10 +88,10 @@
         <p>{{ post.content }}</p>
         {% endfor %} -->
 
-        <section class="bg-white antialiased">
+        <section class="antialiased">
             <div class="mx-auto px-4" id="all-posts">
                 {% for post in post_on_page %}
-                <article
+                <article id="article-{{ post.id }}"
                     class="p-6 mb-3 text-base bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                     <footer class="flex justify-between items-center mb-2">
                         <div class="flex items-center">
@@ -98,10 +99,14 @@
                                 class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
                                 <img class="mr-2 w-6 h-6 rounded-full"
                                     src="
-                                    https://ui-avatars.com/api/?name={{ post.user }}&rounded=true&size=128&background=a7f3d0&color=065f46&bold=true"
+                                    {% if post.user.image_url %}
+                                    {{ post.user.image_url }}
+                                    {% else %}
+                                    https://ui-avatars.com/api/?name={{ post.user.username }}&rounded=true&size=128&background=d9f99d&color=4d7c0f&bold=true
+                                    {% endif %}"
                                     alt="Bonnie Green">
                                 <!-- link to that user profile -->
-                                <a href="{% url 'profile' post.user.id %}">
+                                <a href="{% url 'profile' post.user.id %}" class="usernames">
                                     {{ post.user.first_name }} {{ post.user.last_name }}
                                 </a>
 
@@ -109,7 +114,7 @@
                             </p>
 
                             <div class="mx-6 text-sm text-gray-500">
-                                <a href="mx-3 font-normal">
+                                <a href="{% url 'profile' post.user.id %}">
                                     @{{ post.user.username }}
                                 </a>
                             </div>
@@ -146,27 +151,21 @@
                     </p>
                     <div class="flex items-center mt-4 space-x-4">
                         <button type="button"
+                        
                             class="flex items-center text-sm text-gray-500 dark:text-gray-400 font-medium like-button"
                             data-post-id="{{ post.id }}">
-                            <a href="{% url 'toggle_like' post.id %}">
-                                <!-- if user already liked -->
-                                {% if user in post.likes.all %}
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="w-4 h-4 mr-2">
-                                    <path
-                                        d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
-                                </svg>
-                                {% else %}
 
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                </svg>
-                                {% endif %}
-                            </a>
-                            <span class="like-text mx-3"></span> 
-                            {{ post.likes_count }} Likes
+                            <input type="hidden" name="csrfmiddlewaretoken" value="wHFWXvHEQohP7yLTAlYgZBMrEexHfilPaAZJth4lYbz7PSyPqRP7anDGHiut2XUX">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-4 h-4 mr-2 heart-icon {% if user in post.likes.all %} liked {% endif %}">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                            </svg>
+
+
+                            <span class="number-of-likes mx-3">{{ post.likes_count }} Likes</span>
                         </button>
                     </div>
                 </article>
@@ -174,7 +173,6 @@
             </div>
         </section>
     </div>
-
     <!-- pagination -->
     <div class="mt-10 pt-4 mb-6 flex justify-center items-center">
         <div class="flex">
@@ -204,5 +202,9 @@
         {% endif %}
     </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+
 <!-- if message -->
 {% endblock %}
