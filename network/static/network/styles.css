@@ -7,13 +7,33 @@ body {
 .usernames {
     text-transform: capitalize;
 }
+
+.register {
+    background-color: #334155;
+
+}
+.register:hover {
+    transition: 0.3s;
+    background-color: #bfdbfe;
+    color: #020617;
+}
+
+/* .login {
+
+} */
+.login:hover {
+    transition: 0.3s;
+    background-color: #fde68a;
+    color: #020617;
+}
+
+.exit:hover {
+    transition: 0.3s;
+    background-color: #e2e8f0;
+}
 .post-button:hover {
     transition: 0.3s;
-    background-color: #D3D04F;
-    color: #09090b;
-    svg {
-        fill: #09090b;
-    }
+    background-color: #334155;
 }
 .text-4xl {
     font-weight: 700;

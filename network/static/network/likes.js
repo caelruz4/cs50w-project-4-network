@@ -39,7 +39,7 @@
                     }
                 };
 
-                xhr.send(''); // Puedes enviar datos si es necesario
+                xhr.send(''); 
             });
         });
     });

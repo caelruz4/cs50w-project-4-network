@@ -1,23 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends "network/layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/network/styles.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
-    <title>Register</title>
-</head>
+{% block body %}
 
-<body>
-    <section class="bg-gray-50 dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-                    alt="logo">
-                Flowbite
-            </a>
+    <section class="dark:bg-gray-900">
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0">
             <div
                 class="w-full bg-white rounded-lg shadow dark:border md:mt-0 max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -41,12 +27,12 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <input type="text" name="first_name" id="first_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="First Name" required="">
+                                    class="bg-gray-50  text-sm border ps-10 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   autofocus placeholder="First Name" required="">
                             </div>
                             <div>
                                 <input type="text" name="last_name" id="last_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    class="ps-10 text-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Last Name" required="">
                             </div>
                         </div>
@@ -63,7 +49,7 @@
                                 </div>
                                 <input type="text" name="username" id="username"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    autofocus placeholder="Username" required="">
+                                     placeholder="Username" required="">
                             </div>
                         </div>
                         <div>
@@ -115,18 +101,14 @@
 
                         </div>
                         <button type="submit"
-                            class="w-full bg-gray-900 text-white register-button focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                            class="w-full bg-gray-900 text-white hover:bg-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
                             Register
                         </button>
                     </form>
                     <p class="text-gray-600 text-sm">Already have an account? <a href="{% url 'login' %}"
-                            class="text-blue-500 hover:underline">Log In here.</a></p>
+                            class="text-blue-500 font-semibold hover:underline">Log In here.</a></p>
                 </div>
             </div>
         </div>
     </section>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-
-</body>
-
-</html>
+{% endblock %}

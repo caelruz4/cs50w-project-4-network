@@ -7,7 +7,7 @@
     <title>{% block title %}Social Network{% endblock %}</title>
     <script src="https://kit.fontawesome.com/bf2939f25e.js" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
-    <link href="{% static 'network/styles.css' %}" rel="stylesheet">    
+    <link href="{% static 'network/styles.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -28,58 +28,49 @@
                     </button>
 
                     <a href="#" class="flex ms-2 md:me-24">
-                        <img src="https://img.icons8.com/?size=256&id=vXQ5HjqLFvAn&format=png" class="h-8 me-3"
+                        <img src="https://img.icons8.com/?size=256&id=xuqvSAsgBfzm&format=png" class="h-8 me-3"
                             alt="Network Logo" />
                         <span
-                            class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Network</span>
+                            class="self-center text-xl logo-text font-bold sm:text-2xl whitespace-nowrap dark:text-white">Network</span>
                     </a>
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
                         {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}"
+                            class="font-semibold text-gray-800 border exit focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 me-2 ">
+                            <i class="fas fa-solid fa-arrow-right-from-bracket w-4 h-4 mr-2"></i>
+                            <path fill-rule="evenodd"
+                                d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z"
+                                clip-rule="evenodd" />
+                            </svg>
+                            Log out
+                        </a>
 
-                        <div>
-                            <button type="button"
-                                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full" src="
-                                    {{ user.image_url }}
-                                    alt=" user photo">
+                        {% else %}
+
+                        <a href="{% url 'register' %}"
+                            class="border register font-semibold text-white focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 me-2">
+                            <i class="fas fa-solid fa-wand-magic-sparkles w-4 h-4 mr-2"></i>
+                            <path fill-rule="evenodd"
+                                d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z"
+                                clip-rule="evenodd" />
+                            </svg>
+                            Register
+                        </a>
+                        <a href="{% url 'login' %}">
+                            <button
+                                class="login border border-gray-300 font-semibold text-gray-900 focus:ring-4  focus:ring-[#3b5998]/50 font-medium rounded-sm text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 me-2">
+                                <i class="fas fa-solid fa-star-of-life w-4 h-4 mr-2"></i>
+                                <path fill-rule="evenodd"
+                                    d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z"
+                                    clip-rule="evenodd" />
+                                </svg>
+                                Login
                             </button>
-                        </div>
+                        </a>
+
                         {% endif %}
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                            id="dropdown-user">
-
-                            <div class="px-4 py-3" role="none">
-                                <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                    {{ user.username }}
-                                </p>
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    {{ user.email }}
-                                </p>
-                            </div>
-
-                            <ul class="py-1" role="none">
-                                <li>
-                                    <a href="
-                                        #"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Profile</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'my-following' %}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Following</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'logout' %}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Log out</a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -89,65 +80,83 @@
     <aside id="logo-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-gray-900 border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar">
-        <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-900 dark:bg-gray-800">
-            <ul class="space-y-2 font-medium">
-                <li>
-                    <a href="{% url 'index' %}""
+        <!-- if user authenticated -->
+        {% if user.is_authenticated %}
+        <div class="user-info">
+            <div class="flex items-center px-4 py-2 rounded-lg bg-gray-800 mx-2 mb-4">
+                <a href="{% url 'profile' user.id %}">
+
+                    <img class="w-10 h-10 rounded-full" src="{{ user.image_url }}" alt="user photo">
+                </a>
+                <div class="ms-3">
+                    <h3 class="text-lg font-semibold text-white">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h3>
+                    <p class="text-sm font-medium text-gray-300">
+                        @{{ user.username }}
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-900 dark:bg-gray-800">
+                <ul class="space-y-2 font-medium">
+                    <li>
+                        <a href="{% url 'index' %}""
                         class=" flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-800
-                        dark:hover:bg-gray-700 group">
+                            dark:hover:bg-gray-700 group">
 
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
-                            <path fill-rule="evenodd"
-                                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM8.547 4.505a8.25 8.25 0 1 0 11.672 8.214l-.46-.46a2.252 2.252 0 0 1-.422-.586l-1.08-2.16a.414.414 0 0 0-.663-.107.827.827 0 0 1-.812.21l-1.273-.363a.89.89 0 0 0-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.211.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 0 1-1.81 1.025 1.055 1.055 0 0 1-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.654-.261a2.25 2.25 0 0 1-1.384-2.46l.007-.042a2.25 2.25 0 0 1 .29-.787l.09-.15a2.25 2.25 0 0 1 2.37-1.048l1.178.236a1.125 1.125 0 0 0 1.302-.795l.208-.73a1.125 1.125 0 0 0-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 0 1-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 0 1-1.458-1.137l1.279-2.132Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
+                                <path fill-rule="evenodd"
+                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM8.547 4.505a8.25 8.25 0 1 0 11.672 8.214l-.46-.46a2.252 2.252 0 0 1-.422-.586l-1.08-2.16a.414.414 0 0 0-.663-.107.827.827 0 0 1-.812.21l-1.273-.363a.89.89 0 0 0-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.211.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 0 1-1.81 1.025 1.055 1.055 0 0 1-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.654-.261a2.25 2.25 0 0 1-1.384-2.46l.007-.042a2.25 2.25 0 0 1 .29-.787l.09-.15a2.25 2.25 0 0 1 2.37-1.048l1.178.236a1.125 1.125 0 0 0 1.302-.795l.208-.73a1.125 1.125 0 0 0-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 0 1-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 0 1-1.458-1.137l1.279-2.132Z"
+                                    clip-rule="evenodd" />
+                            </svg>
 
-                        <span class="ms-3">All posts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'my-following' %}"
-                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group">
+                            <span class="ms-3">All posts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'my-following' %}"
+                            class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group">
 
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
-                            <path
-                                d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
+                                <path
+                                    d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+                            </svg>
 
-                        <span class="ms-3">Following</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- if user authenticated -->
-                    <a href="{% if user.is_authenticated %} {% url 'profile' user.id %} {% else %} {% url 'login' %} {% endif %}"
-                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
-                            <path fill-rule="evenodd"
-                                d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5ZM16.5 15a.75.75 0 0 1 .712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 0 1 0 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 0 1-1.422 0l-.395-1.183a1.5 1.5 0 0 0-.948-.948l-1.183-.395a.75.75 0 0 1 0-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0 1 16.5 15Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                            <span class="ms-3">Following</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- if user authenticated -->
+                        <a href="{% if user.is_authenticated %} {% url 'profile' user.id %} {% else %} {% url 'login' %} {% endif %}"
+                            class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
+                                <path fill-rule="evenodd"
+                                    d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5ZM16.5 15a.75.75 0 0 1 .712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 0 1 0 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 0 1-1.422 0l-.395-1.183a1.5 1.5 0 0 0-.948-.948l-1.183-.395a.75.75 0 0 1 0-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0 1 16.5 15Z"
+                                    clip-rule="evenodd" />
+                            </svg>
 
-                        <span class="ms-3">Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'logout' %}"
-                        class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                            class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
-                            <path fill-rule="evenodd"
-                                d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm5.03 4.72a.75.75 0 0 1 0 1.06l-1.72 1.72h10.94a.75.75 0 0 1 0 1.5H10.81l1.72 1.72a.75.75 0 1 1-1.06 1.06l-3-3a.75.75 0 0 1 0-1.06l3-3a.75.75 0 0 1 1.06 0Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                            <span class="ms-3">Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}"
+                            class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700 group">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white">
+                                <path fill-rule="evenodd"
+                                    d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm5.03 4.72a.75.75 0 0 1 0 1.06l-1.72 1.72h10.94a.75.75 0 0 1 0 1.5H10.81l1.72 1.72a.75.75 0 1 1-1.06 1.06l-3-3a.75.75 0 0 1 0-1.06l3-3a.75.75 0 0 1 1.06 0Z"
+                                    clip-rule="evenodd" />
+                            </svg>
 
-                        <span class="ms-3">Log Out</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                            <span class="ms-3">Log Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
     </aside>
 
     <div class="p-4 sm:ml-64">
@@ -165,53 +174,53 @@
     <script src="{% static 'network/likes.js' %}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var likeButtons = document.querySelectorAll('.like-button');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var likeButtons = document.querySelectorAll('.like-button');
 
-        likeButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                var postId = button.getAttribute('data-post-id');
-                var numberOfLikes = button.closest('article').querySelector('.number-of-likes');
-                var csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            likeButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var postId = button.getAttribute('data-post-id');
+                    var numberOfLikes = button.closest('article').querySelector('.number-of-likes');
+                    var csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
-                // Solicitud AJAX al servidor
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', `/toggle_like/${postId}/`, true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.setRequestHeader('X-CSRFToken', csrf_token);
+                    // Solicitud AJAX al servidor
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', `/toggle_like/${postId}/`, true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.setRequestHeader('X-CSRFToken', csrf_token);
 
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            var response = JSON.parse(xhr.responseText);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                var response = JSON.parse(xhr.responseText);
 
-                            if (response.liked) {
-                                var heartIcon = button.querySelector('.heart-icon');
-                                if (heartIcon) {
-                                    heartIcon.style.fill = '#db2777';
-                                    heartIcon.style.stroke = '#db2777';
+                                if (response.liked) {
+                                    var heartIcon = button.querySelector('.heart-icon');
+                                    if (heartIcon) {
+                                        heartIcon.style.fill = '#db2777';
+                                        heartIcon.style.stroke = '#db2777';
+                                    }
+                                } else {
+                                    var heartIcon = button.querySelector('.heart-icon');
+                                    if (heartIcon) {
+                                        heartIcon.style.fill = 'none';
+                                        heartIcon.style.stroke = 'currentColor';
+                                    }
                                 }
+
+                                numberOfLikes.textContent = response.likes_count + ' Likes';
                             } else {
-                                var heartIcon = button.querySelector('.heart-icon');
-                                if (heartIcon) {
-                                    heartIcon.style.fill = 'none';
-                                    heartIcon.style.stroke = 'currentColor';
-                                }
+                                console.error('Error en la solicitud al servidor:', xhr.status);
                             }
-
-                            numberOfLikes.textContent = response.likes_count + ' Likes';
-                        } else {
-                            console.error('Error en la solicitud al servidor:', xhr.status);
                         }
-                    }
-                };
+                    };
 
-                xhr.send(''); // Puedes enviar datos si es necesario
+                    xhr.send(''); 
+                });
             });
         });
-    });
-</script>
+    </script>
 
 </body>
 

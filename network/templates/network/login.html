@@ -1,24 +1,73 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+<section class="dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0">
+        <div
+            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1
+                    class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Login
+                </h1>
+                <div class="my-2">
+                    {% if message %}
+                    <div>
+                        <span class="bg-pink-100 text-pink-800 text-base font-medium me-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">
+                            {{ message }}</span>
 
-    <h2>Login</h2>
+                        
+                    </div>
+                {% endif %}
+            
+                </div>
+                <form action="{% url 'login' %}" method="post" class="space-y-4 md:space-y-6">
+                    {% csrf_token %}
 
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
+                    <div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor"
+                                    class="w-4 h-4 text-gray-500 dark:text-gray-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                </svg>
 
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+                            </div>
+                            <input type="text" name="username" id="username"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                autofocus placeholder="Username" required="">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="w-4 h-4 text-gray-500 dark:text-gray-400">
+                                    <path fill-rule="evenodd"
+                                        d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+
+
+                            </div>
+                            <input type="password" name="password" id="password"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"    
+                            placeholder="Password" required="">
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-gray-900 text-white hover:bg-gray-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                        Login
+                    </button>
+                </form>
+                <p class="text-gray-600 text-sm">Don't have an account? <a href="{% url 'register' %}"
+                        class="text-blue-500 font-semibold hover:underline">Register here.</a></p>
+            </div>
         </div>
-        <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Login">
-    </form>
-
-    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-
+    </div>
+</section>
 {% endblock %}
